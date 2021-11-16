@@ -43,6 +43,8 @@ using std::sqrt;
 using std::string;
 using std::vector;
 
+#define M_PI   atan(1)*4//        3.141592653589793238462643383279502884L
+
 void Timeseries::init( Configf& configf ) {
   series_size_type superimpose = 1;
   configf.optional("Superimpose", superimpose);
