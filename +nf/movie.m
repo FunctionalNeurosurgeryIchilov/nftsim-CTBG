@@ -68,7 +68,7 @@ function movie(obj, tracename, scaling, output_fname)
     plotdata = data;
 
     % Figure
-    fig_handle = figure('pos', [500 500 900 600]); 
+    fig_handle = figure('Units','normalized', 'Position', [0.1 0.1 0.7 0.7]); 
     
     % Main subplot
     surf_plot_handle = surf(X, Y, plotdata(:, :, 1)); title('', 'Interpreter', 'none');
@@ -86,7 +86,7 @@ function movie(obj, tracename, scaling, output_fname)
 
     
     % Inset
-    inset_ax_handle = axes('Parent',fig_handle,'Position',[.5 .6 .3 .3]);
+    inset_ax_handle = axes('Parent',fig_handle,'Position',[0 0 .3 .3]);
     inset_plot_handle = surf(X, Y, plotdata(:, :, 1)); title('', 'Interpreter', 'none', 'Parent', inset_ax_handle);
     view(2)
     shading interp;
@@ -151,7 +151,7 @@ function movie(obj, tracename, scaling, output_fname)
         % Only time
         set(inset_ax_handle, 'ZLim',  [data_min data_max])
         set(inset_plot_handle, 'ZData', plotdata(:, :, t));
-        pause(.01);
+        pause(.0001);
         if ~(nargin < 4 || isempty(output_fname))
             F(t) = getframe(gcf);
         end
