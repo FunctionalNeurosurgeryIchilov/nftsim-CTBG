@@ -1,7 +1,6 @@
 % runs NFTsim from every directory
-function nf_struct = run_nftsim_pwd(configuration)
+function nf_struct = run_nftsim_pwd(configuration, nftsim_path)
 
-nftsim_path = '..\nft\nftsim';
 in_fn = ['.\configs\' configuration '.conf'];
 out_fn = ['.\output\' configuration '.output'];
 addpath(nftsim_path);
