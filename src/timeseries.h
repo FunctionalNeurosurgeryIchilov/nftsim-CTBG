@@ -151,5 +151,21 @@ namespace TIMESERIES {
     void fire( std::vector<double>& Q ) const override;
   };
 
+  struct Custom : public Timeseries {
+    double N = 0;
+    double a0 = 0.0;
+    double * A = NULL; 
+    double * B = NULL; 
+    Random* random;
+    Custom(size_type nodes, double deltat, size_type index) : Timeseries(nodes, deltat, index) {}
+    ~Custom()  override {
+      delete A;
+      delete B;
+      delete random;
+    }
+    void init( Configf& configf ) override;
+    void fire( std::vector<double>& Q ) const override;
+  };    
+
 } // namespace TIMESERIES
 #endif //NFTSIM_SRC_TIMESERIES_H
