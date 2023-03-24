@@ -156,12 +156,12 @@ namespace TIMESERIES {
     double a0 = 0.0;
     double * A = NULL; 
     double * B = NULL; 
-    Random* random;
+//     Random* random;
     Custom(size_type nodes, double deltat, size_type index) : Timeseries(nodes, deltat, index) {}
     ~Custom()  override {
       delete A;
       delete B;
-      delete random;
+//       delete random;
     }
     void init( Configf& configf ) override;
     void fire( std::vector<double>& Q ) const override;

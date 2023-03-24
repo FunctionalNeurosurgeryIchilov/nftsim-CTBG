@@ -491,15 +491,15 @@ namespace TIMESERIES {
 
     //read parameters
     string fn = "";
-    double mean = 0.0;
-    double asd = 0.0;
+//     double mean = 0.0;
+//     double asd = 0.0;
     configf.param("FileName", fn); 
-    configf.param("WhiteMean", mean);
-    configf.param("WhiteASD", asd);  
+//     configf.param("WhiteMean", mean);
+//     configf.param("WhiteASD", asd);  
 
     char buffer[256]; getcwd(buffer, sizeof(buffer));
     cout<<"debug: "<<buffer<<"    "<<fn<<endl;
-    cout<<"debug: mean:"<<mean<<" asd:"<<asd<<endl;
+//     cout<<"debug: mean:"<<mean<<" asd:"<<asd<<endl;
 
     //read file
     std::ifstream input( fn, std::ios::binary );
@@ -515,17 +515,17 @@ namespace TIMESERIES {
     cout<<"debug: A: "<<A[3]<<"  "<<A[4]<<"  "<<A[NN-6]<<"  "<<A[NN-5]<<endl;
     cout<<"debug: B: "<<B[3]<<"  "<<B[4]<<"  "<<B[NN-6]<<"  "<<B[NN-5]<<endl;
 
-    //white noise
-    double stddev;
-    if(nodes>1) {
-      double deltax = atof(configf.find(label("Population ",index+1)+"*Length").c_str()) /sqrt(nodes);
-      stddev = sqrt(2.0*4.0*pow(M_PI,3)*pow(asd,2)/deltat/pow(deltax,2));
-      cout<<"debug: nodes:"<<nodes<<" delta_x:"<<deltax<<" delta_t:"<<deltat<<endl;
-    } else {
-      stddev = sqrt(2.0*M_PI*pow(asd,2)/deltat);
-      cout<<"debug: nodes:"<<nodes<<" delta_t:"<<deltat<<endl;
-    }
-    random = new Random(mean, stddev);      
+//     //white noise
+//     double stddev;
+//     if(nodes>1) {
+//       double deltax = atof(configf.find(label("Population ",index+1)+"*Length").c_str()) /sqrt(nodes);
+//       stddev = sqrt(2.0*4.0*pow(M_PI,3)*pow(asd,2)/deltat/pow(deltax,2));
+//       cout<<"debug: nodes:"<<nodes<<" delta_x:"<<deltax<<" delta_t:"<<deltat<<endl;
+//     } else {
+//       stddev = sqrt(2.0*M_PI*pow(asd,2)/deltat);
+//       cout<<"debug: nodes:"<<nodes<<" delta_t:"<<deltat<<endl;
+//     }
+//     random = new Random(mean, stddev);      
   }
 
   void Custom::fire( vector<double>& Q ) const {
@@ -535,12 +535,12 @@ namespace TIMESERIES {
         St += A[k]*cos(2.0 * M_PI * k * t / N / deltat) + B[k]*sin(2.0 * M_PI * k * t / N / deltat);
     }
 
-    //convolve with noise
-    for(double& x : Q) {
-      random->get(x);
-      x *= St;     
-    }
-    //Q.assign(nodes, St);
+//     //convolve with noise
+//     for(double& x : Q) {
+//       random->get(x);
+//       x *= St;     
+//     }
+    Q.assign(nodes, St);
   }
 
 } // namespace TIMESERIES
