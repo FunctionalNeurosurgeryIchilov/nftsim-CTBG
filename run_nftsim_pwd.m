@@ -22,6 +22,7 @@ out_fn = [fp '\output\' configuration '.output'];
 disp(['NFTsim data generation: ' configuration]);
 [status, cmdout] = system([fp '\bin\nftsim.exe -i ' in_fn ' -o ' out_fn]);
 if status == 0
+    disp(cmdout);
     nf_struct = nf.read(out_fn);
     nf_struct.conf_file = configuration;
 else

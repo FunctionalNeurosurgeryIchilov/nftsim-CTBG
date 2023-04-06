@@ -360,9 +360,11 @@ namespace TIMESERIES {
         deltax = atof(configf.find(
                         label("Population ",index+1)+"*Length").c_str()) /sqrt(nodes);
         stddev = sqrt(2.0*4.0*pow(M_PI,3)*pow(asd,2)/deltat/pow(deltax,2));
+        cout<<"white debug:  nodes:"<<nodes<<"    deltax:"<<deltax<<endl;
       } else {
         stddev = sqrt(2.0*M_PI*pow(asd,2)/deltat);
       }
+      cout<<"white debug: stddev:"<<stddev<<"    deltat:"<<deltat<<endl;
 
     }
     if(configf.optional("Ranseed", seed)) {
@@ -491,41 +493,41 @@ namespace TIMESERIES {
 
     //read parameters
     string fn = "";
-//     double mean = 0.0;
-//     double asd = 0.0;
     configf.param("FileName", fn); 
-//     configf.param("WhiteMean", mean);
-//     configf.param("WhiteASD", asd);  
-
     char buffer[256]; getcwd(buffer, sizeof(buffer));
-    cout<<"debug: "<<buffer<<"    "<<fn<<endl;
-//     cout<<"debug: mean:"<<mean<<" asd:"<<asd<<endl;
+    cout<<"custom debug: "<<buffer<<"    "<<fn<<endl;
+
+//     double mean = 0.0;
+//     double asd = 0.0;  
+//     configf.param("WhiteMean", mean);
+//     configf.param("WhiteASD", asd);        
+//     cout<<"custom debug: mean:"<<mean<<" asd:"<<asd<<endl;
 
     //read file
     std::ifstream input( fn, std::ios::binary );
     input.read((char*)&N, sizeof(double));
     input.read((char*)&a0, sizeof(double));
     unsigned int NN = (unsigned int)N;
+    cout<<"custom debug: N:"<<NN<<" a0:"<<a0<<endl;
     A = new double[NN-1];
     input.read((char*)A, sizeof(double)*(NN-1));
     B = new double[NN-1];
     input.read((char*)B, sizeof(double)*(NN-1));
+    cout<<"custom debug: A: "<<A[3]<<"  "<<A[4]<<"  "<<A[NN-6]<<"  "<<A[NN-5]<<endl;
+    cout<<"custom debug: B: "<<B[3]<<"  "<<B[4]<<"  "<<B[NN-6]<<"  "<<B[NN-5]<<endl;
 
-    cout<<"debug: N:"<<NN<<" a0:"<<a0<<endl;
-    cout<<"debug: A: "<<A[3]<<"  "<<A[4]<<"  "<<A[NN-6]<<"  "<<A[NN-5]<<endl;
-    cout<<"debug: B: "<<B[3]<<"  "<<B[4]<<"  "<<B[NN-6]<<"  "<<B[NN-5]<<endl;
-
-//     //white noise
+//     //white noise for convolution
 //     double stddev;
 //     if(nodes>1) {
 //       double deltax = atof(configf.find(label("Population ",index+1)+"*Length").c_str()) /sqrt(nodes);
 //       stddev = sqrt(2.0*4.0*pow(M_PI,3)*pow(asd,2)/deltat/pow(deltax,2));
-//       cout<<"debug: nodes:"<<nodes<<" delta_x:"<<deltax<<" delta_t:"<<deltat<<endl;
+//       cout<<"custom debug: nodes:"<<nodes<<" delta_x:"<<deltax<<" delta_t:"<<deltat<<endl;
 //     } else {
 //       stddev = sqrt(2.0*M_PI*pow(asd,2)/deltat);
-//       cout<<"debug: nodes:"<<nodes<<" delta_t:"<<deltat<<endl;
+//       cout<<"custom debug: nodes:"<<nodes<<" delta_t:"<<deltat<<endl;
 //     }
-//     random = new Random(mean, stddev);      
+//     random = new Random(mean, stddev);   
+
   }
 
   void Custom::fire( vector<double>& Q ) const {
@@ -534,12 +536,13 @@ namespace TIMESERIES {
     for( size_type k=0; (double)k<N/2; k++ ) {
         St += A[k]*cos(2.0 * M_PI * k * t / N / deltat) + B[k]*sin(2.0 * M_PI * k * t / N / deltat);
     }
-
+    
 //     //convolve with noise
 //     for(double& x : Q) {
 //       random->get(x);
 //       x *= St;     
 //     }
+
     Q.assign(nodes, St);
   }
 
