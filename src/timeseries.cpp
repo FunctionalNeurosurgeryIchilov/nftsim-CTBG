@@ -534,9 +534,11 @@ namespace TIMESERIES {
     //fourier series
     double St = a0;
     for( size_type k=0; (double)k<N/2; k++ ) {
-        St += A[k]*cos(2.0 * M_PI * k * t / N / deltat) + B[k]*sin(2.0 * M_PI * k * t / N / deltat);
+        St += A[k]*cos(2.0 * M_PI * (k+1) * t / N / deltat) + B[k]*sin(2.0 * M_PI * (k+1) * t / N / deltat);
     }
     
+    if (t < 0.01) { cout<<"custom debug: t:"<<t<<" St:"<<St<<endl;  }
+
 //     //convolve with noise
 //     for(double& x : Q) {
 //       random->get(x);
