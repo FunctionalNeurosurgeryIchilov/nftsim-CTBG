@@ -1,5 +1,4 @@
 # Ignore files associated with compiling
-bin/
 obj/
 dep/
 
