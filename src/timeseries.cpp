@@ -535,6 +535,8 @@ namespace TIMESERIES {
     double St = a0;
     for( size_type k=0; (double)k<N/2; k++ ) {
         St += A[k]*cos(2.0 * M_PI * (k+1) * t / N / deltat) + B[k]*sin(2.0 * M_PI * (k+1) * t / N / deltat);
+//         double ph = 0.3*floor(t/N*1000);  // add different phase on every 4-sec section to smooth transitions        
+//         St += A[k]*cos(2.0 * M_PI * (k+1) * t / N / deltat + ph*k) + B[k]*sin(2.0 * M_PI * (k+1) * t / N / deltat + ph*k);
     }
     
     if (t < 0.01) { cout<<"custom debug: t:"<<t<<" St:"<<St<<endl;  }
